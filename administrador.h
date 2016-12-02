@@ -14,8 +14,8 @@ class administrador : public usuario{
 		administrador();
 		virtual ~administrador();
 
-		string setFecha();
-		void getFecha();
+		void setFecha(string);
+		string getFecha();
 };
 
 #endif
