@@ -4,11 +4,13 @@ usuario :: usuario(){
 	
 }
 
-usuario :: usuario(string pnombre, string pcorreo, string pPass){
+usuario :: usuario(string pnombre, string pcorreo, string pPass, string ptipo){
 	nombre = pnombre;
 	correo = pcorreo;
 	password = pPass;
+	tipo = ptipo;
 }
+
 
 usuario :: ~usuario(){
 
@@ -38,3 +40,10 @@ string usuario :: getPassword(){
 	return password;
 }
 
+void usuario :: setTipo(string ptipo){
+	tipo = ptipo;
+}
+
+string usuario :: getTipo(){
+	return tipo;
+}

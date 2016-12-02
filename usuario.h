@@ -12,10 +12,11 @@ class usuario{
 		string nombre;
 		string correo;
 		string password;
+		string tipo;
 	public:
 
 		usuario();
-		usuario(string , string, string);
+		usuario(string , string, string, string);
 		virtual ~usuario();
 
 		void setNombre(string);
@@ -27,6 +28,8 @@ class usuario{
 		void setPassword(string);
 		string getPassword();
 
+		void setTipo(string);
+		string getTipo();
 
 
 

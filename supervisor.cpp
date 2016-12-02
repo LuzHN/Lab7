@@ -13,6 +13,7 @@ supervisor :: supervisor(string pnom, string pcorreo, int pveces, string pPass){
 	correo = pcorreo;
 	veces = pveces;
 	password = pPass;
+	tipo = "supervisor";
 }
 
 void supervisor :: setVeces(int vez){

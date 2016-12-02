@@ -9,6 +9,7 @@ class manager : public usuario{
 		int sueldo;
 	public:
 		manager();
+		manager(string, string, int, string);
 		virtual ~manager();
 		void setSueldo(int);
 		int getSueldo();

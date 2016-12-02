@@ -11,6 +11,7 @@ class intern : public usuario{
 	public:
 
 		intern();
+		intern(string, string, int, string);
 		virtual ~intern();
 		void setDias(int);
 		int getDias();
