@@ -8,13 +8,14 @@ using std::string;
 class usuario{
 
 
-	private:
+	protected:
 		string nombre;
 		string correo;
 		string password;
 	public:
 
 		usuario();
+		usuario(string , string, string);
 		virtual ~usuario();
 
 		void setNombre(string);

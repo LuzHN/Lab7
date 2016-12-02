@@ -1,5 +1,5 @@
-main:	administrador.o manager.o intern.o supervisor.o usuario.o
-	g++ administrador.o manager.o intern.o supervisor.o usuario.o -o main
+main:	main.o administrador.o manager.o intern.o supervisor.o usuario.o
+	g++ main.o administrador.o manager.o intern.o supervisor.o usuario.o -o main
 
 main.o:	main.cpp administrador.h manager.h intern.h supervisor.h usuario.h
 	g++ -c main.cpp

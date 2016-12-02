@@ -8,6 +8,13 @@ supervisor :: ~supervisor(){
 
 }
 
+supervisor :: supervisor(string pnom, string pcorreo, int pveces, string pPass){
+	nombre = pnom;
+	correo = pcorreo;
+	veces = pveces;
+	password = pPass;
+}
+
 void supervisor :: setVeces(int vez){
 	veces = vez;
 }

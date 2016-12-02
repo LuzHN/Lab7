@@ -10,8 +10,8 @@ class administrador : public usuario{
 		string fecha;
 
 	public:
-
 		administrador();
+		administrador(string, string, string, string);
 		virtual ~administrador();
 
 		void setFecha(string);

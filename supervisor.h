@@ -13,6 +13,7 @@ class supervisor : public usuario{
 
 	public:
 		supervisor();
+		supervisor(string, string, int, string);
 		virtual ~supervisor();
 		void setVeces(int);
 		int getVeces();

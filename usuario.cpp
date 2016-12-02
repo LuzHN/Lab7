@@ -1,7 +1,13 @@
 #include "usuario.h"
 
 usuario :: usuario(){
+	
+}
 
+usuario :: usuario(string pnombre, string pcorreo, string pPass){
+	nombre = pnombre;
+	correo = pcorreo;
+	password = pPass;
 }
 
 usuario :: ~usuario(){
