@@ -28,7 +28,7 @@ int main(){
 	string fecha = "12-02-16";
 	string correo = "420@hotmail.com";
 
-	//no divide los tokens.!!
+	//no divide los tokens!!
 
 	/*ifstream file;
 	file.open("DB.txt");
