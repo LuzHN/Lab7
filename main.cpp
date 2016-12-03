@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
 
 #include "usuario.h"
 #include "administrador.h"
@@ -24,8 +27,77 @@ int main(){
 
 	string nom = "admin";
 	string contraadmin = "master01";
-	string fecha = "12/02/16";
+	string fecha = "12-02-16";
 	string correo = "420@hotmail.com";
+
+
+	ifstream file;
+	file.open("DB.txt");
+
+	string tipoPersona = "";
+
+	string nombrePersona;
+	string correoPersona;
+
+	string passwordPersona;
+
+	string fechaPersona;
+	string vecesPersona;
+	string diasPersona;
+	string sueldoPersona;
+
+	int sueldoo;
+	int vec;
+	int did;
+/*
+	while(!file.eof() ){
+
+
+		cout << tipoPersona;
+		 getline(file, tipoPersona, ';');
+		 
+		 if(tipoPersona == "Admin"){
+		 	getline(file, fechaPersona, ';');
+		 	getline(file, nombrePersona, ';');
+		 	getline(file, correoPersona, ';');
+		 	getline(file, passwordPersona, ';');
+
+		 } else if(tipoPersona == "Manager"){
+
+
+		 	getline(file, sueldoPersona, ';');
+		 	sueldoo = atoi(sueldoPersona.c_str());
+		 	getline(file, nombrePersona, ';');
+		 	getline(file, correoPersona, ';');
+		 	getline(file, passwordPersona, ';');
+
+		 	usuario* user = new manager(nombrePersona, correoPersona, sueldoo, passwordPersona);
+		 	users.push_back(user);
+		 } else if(tipoPersona == "Supervisor"){
+		 	getline(file, vecesPersona, ';');
+		 	vec = atoi(vecesPersona.c_str());
+		 	getline(file, nombrePersona, ';');
+		 	getline(file, correoPersona, ';');
+		 	getline(file, passwordPersona, ';');
+
+		 	usuario* user = new supervisor(nombrePersona, correoPersona, vec, passwordPersona);
+		 	users.push_back(user);
+
+		 } else if(tipoPersona == "Intern"){
+		 	getline(file, diasPersona, ';');
+		 	did = atoi(diasPersona.c_str());
+		 	getline(file, nombrePersona, ';');
+		 	getline(file, correoPersona, ';');
+		 	getline(file, passwordPersona, ';');
+
+		 	usuario* user = new intern(nombrePersona, correoPersona, did, passwordPersona);
+		 	users.push_back(user);
+		 }
+	}
+
+	file.close();
+	*/
+	
 
 	usuario* user = new administrador(nom, correo, fecha, contraadmin);
 
@@ -75,7 +147,6 @@ int main(){
 	
 		}
 
-		cout << endl << "tipo: " << tipo;
 		if(tipo == "admin"){ //administrador
 
 			while(opcion != 3){
@@ -94,6 +165,8 @@ int main(){
 						cout << endl << "Ingrese la contraseña de este usuario: ";
 						string passusuario = "";
 						cin >> passusuario;
+
+
 
 						int tipouser = 0;
 
@@ -129,15 +202,51 @@ int main(){
 								int sueldo = 0;
 								cin >> sueldo;
 
-								if(sueldo < 0){
-									cout << endl << "... alguien no puede tener sueldo negativo :c";
+								if(passusuario.size() < 16){
+									cout << endl << "La contraseña tiene que ser mayor de 16 characteres.";
 								} else{
-									usuario* man = new manager(nombreusuario, correousuario, sueldo, passusuario);
-									users.push_back(man);
-									cout << endl << "El manager se ha agredado exitosamente.";
+
+									if(sueldo < 0){
+										cout << endl << "... alguien no puede tener sueldo negativo :c";
+									} else{
+										usuario* man = new manager(nombreusuario, correousuario, sueldo, passusuario);
+										users.push_back(man);
+										cout << endl << "El manager se ha agredado exitosamente.";
+									}
 								}
 							}
 						}
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
+
 						break;
 					}
 					case 2:{ //eliminar usuario
@@ -164,6 +273,36 @@ int main(){
 						}
 
 
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
 
 						break;
 					}
@@ -227,6 +366,36 @@ int main(){
 
 							} 
 						}
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
 						break;
 					}
 					case 2:{ //eliminar usuario
@@ -265,6 +434,36 @@ int main(){
 								cout << endl << "El usuario ha sido borrado exitosamente.";
 							}
 						}
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
 						break;
 					}
 					case 3:{
@@ -298,7 +497,37 @@ int main(){
 
 							}
 						}
-						
+
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
 						break;
 					}
 					case 2:{ //eliminar usuario
@@ -334,11 +563,46 @@ int main(){
 							if( dynamic_cast<intern*> (users.at(eliminar)) != NULL){
 								users.erase(users.begin() + eliminar);
 								cout << endl << "El usuario ha sido borrado exitosamente.";
+
+					
+
+						
 							} else{
 								cout << endl << "Solo puede borrar interns";
 							}
 							
 						}
+
+						stringstream ss;
+
+						for (int i = 0; i < users.size(); ++i)
+						{
+							
+
+							if(dynamic_cast<manager*> (users.at(i)) != NULL){
+								ss << "Manager" << ";" << dynamic_cast<manager*> (users.at(i)) -> getSueldo()
+								 << ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
+								ss << "Intern" << ";" << dynamic_cast<intern*> (users.at(i)) -> getDias()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
+								ss << "Supervisor" << ";" << dynamic_cast<supervisor*> (users.at(i)) -> getVeces()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";"  << users.at(i) -> getPassword() << endl;
+							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
+								ss << "Admin" << ";" << dynamic_cast<administrador*> (users.at(i)) -> getFecha()
+								<< ";" << users.at(i) -> getNombre() << ";" <<
+									users.at(i) -> getCorreo() << ";" << users.at(i) -> getPassword() << endl;
+							}
+						}
+
+						ofstream escribir;
+
+						escribir.open("DB.txt");
+						escribir << ss.str();
+						escribir.close();
 						break;
 					}
 					case 3:{
@@ -378,21 +642,9 @@ int main(){
 							}
 						}
 
-						for (int i = 0; i < users.size(); ++i)
-						{
-							cout << endl << i << ". " << "Nombre: " << users.at(i) -> getNombre() << " ; " << "Correo: " << 
-							users.at(i) -> getCorreo() << " ; "  << "Pass: " << users.at(i) -> getPassword() << " ; ";
+	
 
-							if(dynamic_cast<manager*> (users.at(i)) != NULL){
-								cout << "Sueldo: " << dynamic_cast<manager*> (users.at(i)) -> getSueldo() << endl;
-							} else if(dynamic_cast<intern*> (users.at(i)) != NULL){
-								cout << "Dias: " << dynamic_cast<intern*> (users.at(i)) -> getDias() << endl;
-							}  else if(dynamic_cast<supervisor*> (users.at(i)) != NULL){
-								cout << "Contador: " << dynamic_cast<supervisor*> (users.at(i)) -> getVeces() << endl;
-							}  else if(dynamic_cast<administrador*> (users.at(i)) != NULL){
-								cout << "Fecha: " << dynamic_cast<administrador*> (users.at(i)) -> getFecha() << endl;
-							}
-						}
+
 
 						break;
 					}
