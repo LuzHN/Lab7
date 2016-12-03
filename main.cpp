@@ -19,7 +19,6 @@ int menuManager();
 int menuIntern();
 
 
-
 int main(){
 
 	vector <usuario*> users;
@@ -56,7 +55,7 @@ int main(){
 
 		
 		 getline(file, tipoPersona, ';');
-		 
+
 		 if(tipoPersona == "Admin"){
 		 	getline(file, fechaPersona, ';');
 		 	getline(file, nombrePersona, ';');
