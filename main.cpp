@@ -30,8 +30,9 @@ int main(){
 	string fecha = "12-02-16";
 	string correo = "420@hotmail.com";
 
+	//no divide los tokens.!!
 
-	ifstream file;
+	/*ifstream file;
 	file.open("DB.txt");
 
 	string tipoPersona = "";
@@ -49,11 +50,11 @@ int main(){
 	int sueldoo;
 	int vec;
 	int did;
-/*
+
 	while(!file.eof() ){
 
 
-		cout << tipoPersona;
+		
 		 getline(file, tipoPersona, ';');
 		 
 		 if(tipoPersona == "Admin"){
@@ -96,7 +97,7 @@ int main(){
 	}
 
 	file.close();
-	*/
+*/
 	
 
 	usuario* user = new administrador(nom, correo, fecha, contraadmin);
