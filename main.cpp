@@ -18,7 +18,6 @@ int menuSupervisor();
 int menuManager();
 int menuIntern();
 
-
 int main(){
 
 	vector <usuario*> users;
