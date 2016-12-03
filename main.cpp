@@ -23,7 +23,6 @@ int main(){
 
 	vector <usuario*> users;
 
-
 	string nom = "admin";
 	string contraadmin = "master01";
 	string fecha = "12-02-16";
